@@ -7,7 +7,7 @@ public class PlayerMechanics : MonoBehaviour
     [SerializeField] float speed, horizontalMovement, verticalMovement;
     [SerializeField] private LayerMask jumpableGround;
 
-    private Rigidbody2D rigidBodyPlayer;
+    private Rigidbody2D rigidbodyPlayer;
     private BoxCollider2D playerCollider;
     private Vector2 playerSpeed;
     
@@ -15,7 +15,7 @@ public class PlayerMechanics : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rigidBodyPlayer = GetComponent<Rigidbody2D>();
+        rigidbodyPlayer = GetComponent<Rigidbody2D>();
         playerCollider = GetComponent<BoxCollider2D>();
 
     }
@@ -23,13 +23,25 @@ public class PlayerMechanics : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        playerSpeed.x = Input.GetAxis("Horizontal");
-        playerSpeed.y = Input.GetAxis("Vertical");
-        
+        GetMovementSpeed();
+        Walk();
     }
 
     private void FixedUpdate()
     {
-        rigidBodyPlayer.MovePosition(rigidBodyPlayer.position + playerSpeed * speed * Time.fixedDeltaTime);
+        rigidbodyPlayer.MovePosition(rigidbodyPlayer.position + playerSpeed * speed * Time.fixedDeltaTime);
+    }
+
+    private void GetMovementSpeed()
+    {
+        horizontalMovement = Input.GetAxis("Horizontal");
+        verticalMovement = Input.GetAxis("Vertical");
+        playerSpeed = new Vector2(horizontalMovement, verticalMovement);
+    }
+
+    private void Walk()
+    {
+
+        rigidbodyPlayer.velocity = (new Vector2(playerSpeed.x * speed, rigidbodyPlayer.velocity.y));
     }
 }
