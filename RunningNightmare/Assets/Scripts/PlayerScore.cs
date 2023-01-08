@@ -21,9 +21,9 @@ public class PlayerScore : MonoBehaviour
 
         DisplayTime(timer);
     }
-
     private void DisplayTime(float time)
     {
         score.text = string.Format("{0}", (int)time);
     }
+
 }
